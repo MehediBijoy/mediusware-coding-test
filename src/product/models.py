@@ -34,4 +34,4 @@ class ProductVariantPrice(models.Model):
                                               related_name='product_variant_three')
     price = models.FloatField()
     stock = models.FloatField()
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, related_name='product_variant', on_delete=models.CASCADE)
