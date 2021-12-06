@@ -10,30 +10,30 @@
 
 
 <div class="card">
-    <form action="{% url 'product:product-search' %}" method="post" class="card-header">
+    <form action="" method="get" class="card-header">
         {% csrf_token %}
         <div class="form-row justify-content-between">
             <div class="col-md-2">
                 <input type="text" name="title" placeholder="Product Title" class="form-control">
             </div>
             <div class="col-md-2">
-                <select name="variant" id="variant" class="form-control">
-                    <option selected value="">--Select A Variant--</option>
+                <select name="variant" id="" class="form-control">
+                    <option selected disabled>--Select A Variant--</option>
                     <optgroup label="colors">
                         {% for color in colors %}
-                            <option value="{{ color.variant_title }}" >{{ color.variant_title }}</option>
+                            <option>{{ color.variant_title }}</option>
                         {% endfor %}
                     </optgroup>
 
                     <optgroup label="sizes">
                         {% for size in sizes %}
-                            <option value="{{ size.variant_title }}">{{ size.variant_title }}</option>
+                            <option>{{ size.variant_title }}</option>
                         {% endfor %}
                     </optgroup>
 
                     <optgroup label="sizes">
                         {% for style in styles %}
-                            <option value="{{ style.variant_title }}">{{ style.variant_title }}</option>
+                            <option>{{ style.variant_title }}</option>
                         {% endfor %}
                     </optgroup>
                 </select>
