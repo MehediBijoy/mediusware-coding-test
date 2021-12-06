@@ -19,10 +19,26 @@ class ProductImage(models.Model):
     file_path = models.URLField()
 
 
+class ProductVariantManager(models.Manager):
+    def colors(self):
+        return super(ProductVariantManager, self).filter(variant__title='Color')
+    
+    def sizes(self):
+        return super(ProductVariantManager, self).filter(variant__title='Size')
+
+    def styles(self):
+        return super(ProductVariantManager, self).filter(variant__title='Style')
+
+
 class ProductVariant(models.Model):
     variant_title = models.CharField(max_length=255)
     variant = models.ForeignKey(Variant, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    object = ProductVariantManager()
+
+    def __str__(self):
+        return self.variant_title
 
 
 class ProductVariantPrice(models.Model):

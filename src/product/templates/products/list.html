@@ -18,7 +18,23 @@
             <div class="col-md-2">
                 <select name="variant" id="" class="form-control">
                     <option selected disabled>--Select A Variant--</option>
+                    <optgroup label="colors">
+                        {% for color in colors %}
+                            <option>{{ color.variant_title }}</option>
+                        {% endfor %}
+                    </optgroup>
 
+                    <optgroup label="sizes">
+                        {% for size in sizes %}
+                            <option>{{ size.variant_title }}</option>
+                        {% endfor %}
+                    </optgroup>
+
+                    <optgroup label="sizes">
+                        {% for style in styles %}
+                            <option>{{ style.variant_title }}</option>
+                        {% endfor %}
+                    </optgroup>
                 </select>
             </div>
 
