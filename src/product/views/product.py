@@ -1,3 +1,4 @@
+from django.forms.models import inlineformset_factory
 from django.shortcuts import redirect, render
 from django.db.models import Q
 from django.views import generic
@@ -13,6 +14,8 @@ class CreateProductView(generic.TemplateView):
         variants = Variant.objects.filter(active=True).values('id', 'title')
         context['product'] = True
         context['variants'] = list(variants.all())
+
+        print(self.request.POST)
         return context
 
 
@@ -58,8 +61,11 @@ def ProductSearch(request):
 
 def updateProduct(request, id):
     context = {}
+    product = Product.objects.get(id=id)
+    formset = inlineformset_factory(Product, ProductVariantPrice, 
+            fields=('product_variant_one', 'product_variant_two', 'product_variant_three', 'price', 'stock'), 
+            extra=0, can_delete=False)
     if request.method == 'POST':
-        print(request.POST)
         form = ProductForm(request.POST)
         if form.is_valid():
             product = Product.objects.get(id=id)
@@ -67,9 +73,12 @@ def updateProduct(request, id):
             product.description = form.cleaned_data['description']
             product.save()
         
+        variant_formset = formset(request.POST, instance=product)
+        if variant_formset.is_valid():
+            variant_formset.save(commit=True)
         return redirect('product:list.product')
     else:
-        product = Product.objects.get(id=id)
         context['product_form'] = ProductForm(instance=product)
+        context['variants'] = formset(instance=product)
 
     return render(request, 'products/update-product.html', context)

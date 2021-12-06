@@ -14,7 +14,18 @@
         <form method="post">
             {% csrf_token %}
             {{ product_form | crispy }}
-            <button type="submit">post</button>
+
+            
+            {{ variants.management_form }}
+            {% for variant in variants %}
+                {% for hidden in variant.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+
+                {{ variant }}
+                <hr>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">update</button>
         </form>
     </div>
 </div>
