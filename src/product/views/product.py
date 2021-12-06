@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.db.models import Q
 from django.views import generic
 from django.views.generic.list import ListView
 from product.models import Variant, Product, ProductVariant, ProductVariantPrice
-
+from product.forms import ProductForm
 
 class CreateProductView(generic.TemplateView):
     template_name = 'products/create.html'
@@ -54,3 +54,22 @@ def ProductSearch(request):
             product = product.filter(price__range=(start, end))
             
     return render(request, 'products/search-result.html', {'products': product})
+
+
+def updateProduct(request, id):
+    context = {}
+    if request.method == 'POST':
+        print(request.POST)
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            product = Product.objects.get(id=id)
+            product.title= form.cleaned_data['title']
+            product.description = form.cleaned_data['description']
+            product.save()
+        
+        return redirect('product:list.product')
+    else:
+        product = Product.objects.get(id=id)
+        context['product_form'] = ProductForm(instance=product)
+
+    return render(request, 'products/update-product.html', context)

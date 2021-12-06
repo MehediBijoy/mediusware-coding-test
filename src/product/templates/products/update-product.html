@@ -1,0 +1,21 @@
+{% extends 'backend/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} Product Update form {% endblock %}
+
+{% block content %}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Product update form</h1>
+</div>
+
+
+<div class="card">
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            {{ product_form | crispy }}
+            <button type="submit">post</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
