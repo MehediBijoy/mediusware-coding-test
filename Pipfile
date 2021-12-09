@@ -4,11 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "*"
+django = "3.2.10"
 django-dotenv = "*"
 mysqlclient = "*"
 django-extensions = "*"
 djangorestframework = "*"
+django-crispy-forms = "*"
+pytz = "*"
 
 [dev-packages]
 

@@ -1,5 +1,4 @@
 .idea
-src/.env
 src/.env.backup
 static
 media

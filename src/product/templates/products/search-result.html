@@ -9,48 +9,56 @@
 </div>
 
 
-<div class="card">
-    <div class="card-body">
-        <div class="table-response">
-            <table class="table">
-                <thead>
+<div class="card-body">
+    <div class="table-response">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Variant</th>
+                <th width="150px">Action</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for product in products %}
                 <tr>
-                    <th>#</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th width="400px">Variant</th>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.title }}</td>
+                    <td>{{ product.description }}</td>
+                    <td>
+                        <dl class="row mb-0" style="height: 80px; overflow: hidden" id="{{product.id}}">
+                            
+                            {% for variant in product.product_variant.all %}
+                            <dt class="col-sm-3 pb-0">
+                                {{ variant.product_variant_one.variant_title }}/
+                                {{ variant.product_variant_two.variant_title }}/
+                                {{ variant.product_variant_three.variant_title }}
+                            </dt>
+                            <dd class="col-sm-9">
+                                <dl class="row mb-0">
+                                    <dt class="col-sm-4 pb-0">Price : {{ variant.price }}</dt>
+                                    <dd class="col-sm-8 pb-0">InStock : {{ variant.stock }} </dd>
+                                </dl>
+                            </dd>
+                            {% endfor %}
+                        </dl>
+                        <button onclick="$('#{{product.id}}').toggleClass('h-auto')" class="btn btn-sm btn-link">Show more
+                        </button>
+                    </td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <a href="{% url 'product:update-product' product.id %}" class="btn btn-success">Edit</a>
+                        </div>
+                    </td>
                 </tr>
-                </thead>
-
-                <tbody>
-                {% for product in products %}
-                    <tr>
-                        <td>{{ product.id }}</td>
-                        <td>{{ product.product.title }}</td>
-                        <td>{{ product.product.description }}</td>
-                        <td>
-                            <dl class="row mb-0" style="height: 80px; overflow: hidden" id="{{product.id}}">
-                                <dt class="col-sm-3 pb-0">
-                                    {{ product.product_variant_one.variant_title }}/
-                                    {{ product.product_variant_two.variant_title }}/
-                                    {{ product.product_variant_three.variant_title }}
-                                </dt>
-                                <dd class="col-sm-9">
-                                    <dl class="row mb-0">
-                                        <dt class="col-sm-4 pb-0">Price : {{ product.price }}</dt>
-                                        <dd class="col-sm-8 pb-0">InStock : {{ product.stock }} </dd>
-                                    </dl>
-                                </dd>
-                            </dl>
-                            <button onclick="$('#{{product.id}}').toggleClass('h-auto')" class="btn btn-sm btn-link">Show more
-                            </button>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-
-            </table>
-        </div>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
+</div>
+
 </div>
 {% endblock %}
