@@ -6,15 +6,15 @@
           <div class="card-body">
             <div class="form-group">
               <label for="">Product Name</label>
-              <input type="text" v-model="product_name" placeholder="Product Name" class="form-control">
+              <input type="text" v-model="product_name" placeholder="Product Name" class="form-control" required>
             </div>
             <div class="form-group">
               <label for="">Product SKU</label>
-              <input type="text" v-model="product_sku" placeholder="Product Name" class="form-control">
+              <input type="text" v-model="product_sku" placeholder="Product Name" class="form-control" required>
             </div>
             <div class="form-group">
               <label for="">Description</label>
-              <textarea v-model="description" id="" cols="30" rows="4" class="form-control"></textarea>
+              <textarea v-model="description" id="" cols="30" rows="4" class="form-control" required></textarea>
             </div>
           </div>
         </div>
@@ -100,6 +100,18 @@
 import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 import InputTag from 'vue-input-tag'
+import axios from 'axios'
+import Cookies from "js-cookie";
+
+const csrftoken = Cookies.get('csrftoken')
+const header = () => {
+    return {
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
+        }
+    }
+}
 
 export default {
   components: {
@@ -176,26 +188,22 @@ export default {
       }, []);
       return ans;
     },
-
     // store product into database
     saveProduct() {
       let product = {
         title: this.product_name,
         sku: this.product_sku,
         description: this.description,
-        product_image: this.images,
-        product_variant: this.product_variant,
+        // product_image: this.images,
+        // product_variant: this.product_variant,
         product_variant_prices: this.product_variant_prices
       }
 
-
-      axios.post('/product:create', product).then(response => {
-        console.log(response.data);
-      }).catch(error => {
-        console.log(error);
+      axios.post('/product/product-create/', product, header()).then(() => {
+        window.alert('Create Successfully')
+      }).catch(()=>{
+        window.alert('Bad request')
       })
-
-      console.log(product);
     }
 
 
